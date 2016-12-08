@@ -1,7 +1,7 @@
 require 'omniauth-oauth2'
 module OmniAuth
   module Strategies
-    class Learn < OmniAuth::Strategies::OAuth2
+    class Census < OmniAuth::Strategies::OAuth2
       include OmniAuth::Strategy
       option :client_options, {
                site: "https://localhost:3000",
