@@ -56,17 +56,14 @@ class SessionsController < ApplicationController
 end
 ```
 
-#### Step 4: Add Login Link
+#### Step 5: Add Login Link
 
 Add the following code to your desired view in order to create a Census Login Link
 
 `<%= link_to 'Login with Census', '/auth/census' %>`
 
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+## Important note
+Please note that in order to use the Census OmniAuth strategy, your application must be configured to handle secured HTTPS requests. This is not the default setting on typical Rails applications run locally. For instructions on configuring SSL on a development version of your application, please consult [this guide](http://blog.napcs.com/2013/07/21/rails_ssl_simple_wa/).
 
 ## Contributing
 
