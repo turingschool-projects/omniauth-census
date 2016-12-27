@@ -23,7 +23,7 @@ Or install it yourself as:
 Visit [Your Census Applications ](http://census-app-staging.herokuapp.com/oauth/applications) and register your app.
 * Provide an application name
 * Provide an application redirect uri (e.g. http://localhost:3000/auth/census/callback)
-* Optionally, provide a scope (note this feature is still in development)
+* Optionally, provide a scope (note this feature is still in development)  
 #### Step 2: Create an OmniAuth Config Initializer
 Create the following file:
 `touch config/initializers/omniauth.rb`
