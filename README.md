@@ -22,12 +22,12 @@ Or install it yourself as:
 
 ## Usage
 #### Step 1: Register your Application
-Visit [Your Census Applications ](http://census-app-staging.herokuapp.com/oauth/applications) and register your app.
+Sign in to Census at [https://turing-census.herokuapp.com](https://turing-census.herokuapp.com).  
+Visit [Your Census Applications](https://turing-census.herokuapp.com/oauth/applications) and register your app.
 * Provide an application name
-* Provide an application redirect uri (e.g. http://localhost:3000/auth/census/callback)
+* Provide an application redirect uri (e.g. http://your-app.com/auth/census/callback)
 * Optionally, provide a scope (note this feature is still in development)
 * Add the `CENSUS_ID`, `CENSUS_SECRET` you receive to your application's environment variables. For security, please ensure that these variables are not uploaded to GitHub or any other publicly available resource. If you need assistance with keeping these secret, consider using the [Figaro](https://github.com/laserlemon/figaro) gem. _(Figaro pronunciation: /fi.ɡa.ʁɔ/)_
-
 
 #### Step 2: Configure OmniAuth
 Create the following file:
