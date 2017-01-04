@@ -20,9 +20,10 @@ Or install it yourself as:
 
 ## Usage
 #### Step 1: Register your Application
-Visit [Your Census Applications ](http://census-app-staging.herokuapp.com/oauth/applications) and register your app.
+Sign in to Census at [https://turing-census.herokuapp.com](https://turing-census.herokuapp.com).  
+Visit [Your Census Applications](https://turing-census.herokuapp.com/oauth/applications) and register your app.
 * Provide an application name
-* Provide an application redirect uri (e.g. http://localhost:3000/auth/census/callback)
+* Provide an application redirect uri (e.g. http://your-app.com/auth/census/callback)
 * Optionally, provide a scope (note this feature is still in development)  
 
 #### Step 2: Create an OmniAuth Config Initializer
