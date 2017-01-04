@@ -7,12 +7,14 @@ Welcome to Census, and Omniauth strategy for Census. This gem makes it possible 
 Add this line to your application's Gemfile:
 
 ```ruby
+# Gemfile
+
 gem 'omniauth-census', git: "https://github.com/bcgoss/omniauth-census"
 ```
 
 And then execute:
 
-    $ bundle
+    $ bundle install
 
 Or install it yourself as:
 
@@ -24,23 +26,29 @@ Sign in to Census at [https://turing-census.herokuapp.com](https://turing-census
 Visit [Your Census Applications](https://turing-census.herokuapp.com/oauth/applications) and register your app.
 * Provide an application name
 * Provide an application redirect uri (e.g. http://your-app.com/auth/census/callback)
-* Optionally, provide a scope (note this feature is still in development)  
+* Optionally, provide a scope (note this feature is still in development)
+* Add the `CENSUS_ID`, `CENSUS_SECRET` you receive to your application's environment variables. For security, please ensure that these variables are not uploaded to GitHub or any other publicly available resource. If you need assistance with keeping these secret, consider using the [Figaro](https://github.com/laserlemon/figaro) gem. _(Figaro pronunciation: /fi.ɡa.ʁɔ/)_
 
-#### Step 2: Create an OmniAuth Config Initializer
+#### Step 2: Configure OmniAuth
 Create the following file:
 `touch config/initializers/omniauth.rb`
 
 Add the following configuration to the above file:
 ```ruby
+# config/initializers/omniauth.rb
+
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :census, "CENSUS_ID", "CENSUS_SECRET", {
     :name => "census"
   }
 end
 ```
+
 #### Step 3: Setup Route
 In your Rails application create the following routes:
 ```ruby
+# config/routes.rb
+
 get 'auth/:provider/callback', to: 'sessions#create'
 ```
 #### Step 4: Create a Controller
@@ -51,6 +59,8 @@ In your Rails application create a controller that will handle the login process
 In that controller include the following:
 
 ```ruby
+# app/controllers/sessions_controller.rb
+
 class SessionsController < ApplicationController
   def create
     census_user_info = env["omniauth.auth"]
