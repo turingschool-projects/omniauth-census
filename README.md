@@ -9,7 +9,7 @@ Add this line to your application's Gemfile:
 ```ruby
 # Gemfile
 
-gem 'omniauth-census', git: "https://github.com/bcgoss/omniauth-census"
+gem 'omniauth-census', git: "https://github.com/turingschool-projects/omniauth-census"
 ```
 
 And then execute:
