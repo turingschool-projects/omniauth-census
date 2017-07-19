@@ -4,11 +4,22 @@ module OmniAuth
   module Strategies
     class Census < OmniAuth::Strategies::OAuth2
       include OmniAuth::Strategy
+
+      def self.provider_endpoint
+        
+        if ENV['CENSUS_ENV'] == 'production' || ENV['RACK_ENV'] == 'production'
+          return "https://turing-census.herokuapp.com"
+        else
+          return "https://census-app-staging.herokuapp.com"
+        end
+        
+      end
+
       option :client_options, {
-               site: "https://turing-census.herokuapp.com",
-               authorize_url: "/oauth/authorize",
-               token_url: "/oauth/token"
-             }
+         site: provider_endpoint,
+         authorize_url: "/oauth/authorize",
+         token_url: "/oauth/token"
+       }
 
       def request_phase
         super

@@ -21,28 +21,35 @@ Or install it yourself as:
     $ gem install omniauth-census
 
 ## Usage
+
 #### Step 1: Register your Application
-Sign in to Census at [https://turing-census.herokuapp.com](https://turing-census.herokuapp.com).  
-Visit [Your Census Applications](https://turing-census.herokuapp.com/oauth/applications) and register your app.
-* Provide an application name
-* Provide an application redirect uri (e.g. http://your-app.com/auth/census/callback)
-* Optionally, provide a scope (note this feature is still in development)
-* Add the `CENSUS_ID`, `CENSUS_SECRET` you receive to your application's environment variables. For security, please ensure that these variables are not uploaded to GitHub or any other publicly available resource. If you need assistance with keeping these secret, consider using the [Figaro](https://github.com/laserlemon/figaro) gem. _(Figaro pronunciation: /fi.ɡa.ʁɔ/)_
+
+*   Sign in to Census at [https://turing-census.herokuapp.com](https://turing-census.herokuapp.com).  
+*   Visit [Your Census Applications](https://turing-census.herokuapp.com/oauth/applications) and register your app.
+*   Provide an application name
+*   Provide an application redirect uri (e.g. https://your-app.com/auth/census/callback)
+*   Note the values for "Application Id" and "Secret". These are your "production" values.
+*   Follow the steps above, but at <https://census-app-staging.herokuapp.com>. You will get a different set of "Application Id" and "Secret". These are your "development" values.
+
 
 #### Step 2: Configure OmniAuth
-Create the following file:
-`touch config/initializers/omniauth.rb`
 
-Add the following configuration to the above file:
-```ruby
-# config/initializers/omniauth.rb
+*   Add the `CENSUS_ID`, `CENSUS_SECRET` you receive to your application's environment variables. Use the "production" values if `RACK_ENV` is set to `production`. Use the "development" values for all other environments.
+    *   For security, please ensure that these variables are not uploaded to GitHub or any other publicly available resource. If you need assistance with keeping these secret, consider using the [Figaro](https://github.com/laserlemon/figaro) gem. _(Figaro pronunciation: /fi.ɡa.ʁɔ/)_
 
-Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :census, "CENSUS_ID", "CENSUS_SECRET", {
-    :name => "census"
-  }
-end
-```
+*   Create the following file:
+    `touch config/initializers/omniauth.rb`
+
+*   Add the following configuration to the above file:
+    ```ruby
+    # config/initializers/omniauth.rb
+
+    Rails.application.config.middleware.use OmniAuth::Builder do
+      provider :census, "CENSUS_ID", "CENSUS_SECRET", {
+        :name => "census"
+      }
+    end
+    ```
 
 #### Step 3: Setup Route
 In your Rails application create the following routes:
@@ -76,6 +83,14 @@ Add the following code to your desired view in order to create a Census Login Li
 
 ## Important note
 Please note that in order to use the Census OmniAuth strategy, your application must be configured to handle secured HTTPS requests. This is not the default setting on typical Rails applications run locally. For instructions on configuring SSL on a development version of your application, please consult [this guide](http://blog.napcs.com/2013/07/21/rails_ssl_simple_wa/).
+
+## Note about environments
+
+Since you can perform destructive actions on Census with your application keys, we host a "staging" and a "production" version of the Census app. That way, if you have a bug in your code, you'll only screw up the "staging" app.
+
+This gem is set to use the "production" host of Census if your application's `RACK_ENV` variable is set to `production`, and staging for all other values of `RACK_ENV` (including if it is unset).
+
+Additionally, you can force use of the production server by setting an environment variable `CENSUS_ENV=production`
 
 ## Contributing
 
