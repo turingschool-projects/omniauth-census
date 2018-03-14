@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = "Turing School of Software Design Omniauth Strategy"
   spec.description   = "This gem makes it possible for developers to create applications that authenticate using the Turing Census identity management platform."
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.homepage      = "https://github.com/turingschool-projects/omniauth-census"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'

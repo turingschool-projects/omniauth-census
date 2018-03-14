@@ -6,13 +6,15 @@ module OmniAuth
       include OmniAuth::Strategy
 
       def self.provider_endpoint
-        
+        if ENV['CENSUS_PROVIDER_ENDPOINT'].to_s != ""
+          return ENV['CENSUS_PROVIDER_ENDPOINT']
+        end
+
         if ENV['CENSUS_ENV'] == 'production' || ENV['RACK_ENV'] == 'production'
           return "https://turing-census.herokuapp.com"
         else
           return "https://census-app-staging.herokuapp.com"
         end
-        
       end
 
       option :client_options, {
@@ -39,7 +41,6 @@ module OmniAuth
         @raw_info ||=
           access_token.get('/api/v1/user_credentials').parsed
       end
-
     end
   end
 end

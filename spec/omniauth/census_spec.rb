@@ -21,6 +21,15 @@ describe Omniauth::Census do
         expect(OmniAuth::Strategies::Census.provider_endpoint).to eq("https://turing-census.herokuapp.com")
       end
     end
+
+    it "returns the given url if present in the environment" do
+      safe_env({
+        'CENSUS_ENV' => 'production',
+        'CENSUS_PROVIDER_ENDPOINT' => 'https://foo.example.com'
+      }) do
+        expect(OmniAuth::Strategies::Census.provider_endpoint).to eq("https://foo.example.com")
+      end
+    end
   end
 
 
