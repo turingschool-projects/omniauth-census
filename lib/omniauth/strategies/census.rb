@@ -11,9 +11,9 @@ module OmniAuth
         end
 
         if ENV['CENSUS_ENV'] == 'production' || ENV['RACK_ENV'] == 'production'
-          return "https://turing-census.herokuapp.com"
+          return "https://login.turing.io"
         else
-          return "https://census-app-staging.herokuapp.com"
+          return "https://login-staging.turing.io"
         end
       end
 
