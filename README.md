@@ -34,7 +34,7 @@ Or install it yourself as:
 
 #### Step 2: Configure OmniAuth
 
-*   Add the `CENSUS_ID`, `CENSUS_SECRET` you receive to your application's environment variables. Use the "production" values if `RACK_ENV` is set to `production`. Use the "development" values for all other environments.
+*   Add the `CENSUS_ID`, `CENSUS_SECRET` you receive to your application's environment variables. Use the "production" values if `RACK_ENV` is set to `production`. Use the "development" values for all other environments. The Census endpoint can be overridden by setting a fully qualified URL in `CENSUS_PROVIDER_ENDPOINT`.
     *   For security, please ensure that these variables are not uploaded to GitHub or any other publicly available resource. If you need assistance with keeping these secret, consider using the [Figaro](https://github.com/laserlemon/figaro) gem. _(Figaro pronunciation: /fi.ɡa.ʁɔ/)_
 
 *   Create the following file:
