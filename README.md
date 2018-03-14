@@ -34,7 +34,7 @@ Or install it yourself as:
 
 #### Step 2: Configure OmniAuth
 
-*   Add the `CENSUS_ID`, `CENSUS_SECRET` you receive to your application's environment variables. Use the "production" values if `RACK_ENV` is set to `production`. Use the "development" values for all other environments. The Census endpoint can be overridden by setting a fully qualified URL in `CENSUS_PROVIDER_ENDPOINT`.
+*   Add the `CENSUS_ID`, `CENSUS_SECRET` you receive to your application's environment variables. Use the "production" values if `RACK_ENV` is set to `production`. Use the "development" values for all other environments.
     *   For security, please ensure that these variables are not uploaded to GitHub or any other publicly available resource. If you need assistance with keeping these secret, consider using the [Figaro](https://github.com/laserlemon/figaro) gem. _(Figaro pronunciation: /fi.ɡa.ʁɔ/)_
 
 *   Create the following file:
@@ -90,12 +90,21 @@ Since you can perform destructive actions on Census with your application keys, 
 
 This gem is set to use the "production" host of Census if your application's `RACK_ENV` variable is set to `production`, and staging for all other values of `RACK_ENV` (including if it is unset).
 
-Additionally, you can force use of the production server by setting an environment variable `CENSUS_ENV=production`
+Additionally, you can force use of the production server by setting an environment variable `CENSUS_ENV=production`.
+
+The Census endpoint can be overridden by setting a fully qualified URL in `CENSUS_PROVIDER_ENDPOINT`.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/bcgoss/omniauth-census.
+Bug reports and pull requests are welcome on GitHub at https://github.com/turingschool-projects/omniauth-census.
 
+## Releasing a new version
+Make your changes and go through the pull request process.
+Merge to master.
+Update the version number in `version.rb`
+Make a new commit with something like `git commit -m "Bumping version to 0.1.2"`
+Then run `git tag v0.1.2`
+Then run `git push && git push --tags`
 
 ## License
 
