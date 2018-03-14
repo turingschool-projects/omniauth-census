@@ -7,18 +7,18 @@ describe Omniauth::Census do
 
   context ".provider_endpoint" do
     it "returns the staging url by default" do
-      expect(OmniAuth::Strategies::Census.provider_endpoint).to eq("https://census-app-staging.herokuapp.com")
+      expect(OmniAuth::Strategies::Census.provider_endpoint).to eq("https://login-staging.turing.io")
     end
 
     it "returns the production url if rack_env is production" do
       safe_env({'RACK_ENV' => 'production'}) do
-        expect(OmniAuth::Strategies::Census.provider_endpoint).to eq("https://turing-census.herokuapp.com")
+        expect(OmniAuth::Strategies::Census.provider_endpoint).to eq("https://login.turing.io")
       end
     end
     
     it "returns the production url if census_env is production" do
       safe_env({'CENSUS_ENV' => 'production'}) do
-        expect(OmniAuth::Strategies::Census.provider_endpoint).to eq("https://turing-census.herokuapp.com")
+        expect(OmniAuth::Strategies::Census.provider_endpoint).to eq("https://login.turing.io")
       end
     end
 
@@ -34,7 +34,7 @@ describe Omniauth::Census do
 
 
   it "Will set the correct auth_url given the environment" do
-    expect(OmniAuth::Strategies::Census.provider_endpoint).to eq("https://census-app-staging.herokuapp.com")
+    expect(OmniAuth::Strategies::Census.provider_endpoint).to eq("https://login-staging.turing.io")
   end
 end
 
