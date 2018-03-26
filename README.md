@@ -1,6 +1,8 @@
 # Omniauth::Census
 
-Welcome to Census, and Omniauth strategy for Census. This gem makes it possible to log users into your application using their Turing Census loging credentials.
+Welcome to Census, and Omniauth strategy for Census. This gem makes it possible
+to log users into your application using their Turing Census loging
+credentials.
 
 ## Installation
 
@@ -77,35 +79,42 @@ end
 
 #### Step 5: Add Login Link
 
-Add the following code to your desired view in order to create a Census Login Link
+Add the following code to your desired view in order to create a Census Login
+Link
 
 `<%= link_to 'Login with Census', '/auth/census' %>`
 
-## Important note
-Please note that in order to use the Census OmniAuth strategy, your application must be configured to handle secured HTTPS requests. This is not the default setting on typical Rails applications run locally. For instructions on configuring SSL on a development version of your application, please consult [this guide](http://blog.napcs.com/2013/07/21/rails_ssl_simple_wa/).
-
 ## Note about environments
 
-Since you can perform destructive actions on Census with your application keys, we host a "staging" and a "production" version of the Census app. That way, if you have a bug in your code, you'll only screw up the "staging" app.
+Since you can perform destructive actions on Census with your application keys,
+we host a "staging" and a "production" version of the Census app. That way, if
+you have a bug in your code, you'll only screw up the "staging" app.
 
-This gem is set to use the "production" host of Census if your application's `RACK_ENV` variable is set to `production`, and staging for all other values of `RACK_ENV` (including if it is unset).
+This gem is set to use the "production" host of Census if your application's
+`RACK_ENV` variable is set to `production`, and staging for all other values of
+`RACK_ENV` (including if it is unset).
 
-Additionally, you can force use of the production server by setting an environment variable `CENSUS_ENV=production`.
+Additionally, you can force use of the production server by setting an
+environment variable `CENSUS_ENV=production`.
 
-The Census endpoint can be overridden by setting a fully qualified URL in `CENSUS_PROVIDER_ENDPOINT`.
+The Census endpoint can be overridden by setting a fully qualified URL in
+`CENSUS_PROVIDER_ENDPOINT`.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/turingschool-projects/omniauth-census.
+Bug reports and pull requests are welcome on GitHub at
+https://github.com/turingschool-projects/omniauth-census.
 
 ## Releasing a new version
-Make your changes and go through the pull request process.
-Merge to master.
-Update the version number in `version.rb`
-Make a new commit with something like `git commit -m "Bumping version to 0.1.2"`
-Then run `git tag v0.1.2`
-Then run `git push && git push --tags`
+
+* Make your changes and go through the pull request process.
+* Merge to master.
+* Update the version number in `version.rb`
+* Make a new commit with something like `git commit -m "Bumping version to 0.1.2"`
+* Then run `git tag v0.1.2`
+* Then run `git push && git push --tags`
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+The gem is available as open source under the terms of the [MIT
+License](http://opensource.org/licenses/MIT).
