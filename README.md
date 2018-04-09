@@ -26,12 +26,14 @@ Or install it yourself as:
 
 #### Step 1: Register your Application
 
-*   Sign in to Census at [https://turing-census.herokuapp.com](https://turing-census.herokuapp.com).  
-*   Visit [Your Census Applications](https://turing-census.herokuapp.com/oauth/applications) and register your app.
-*   Provide an application name
-*   Provide an application redirect uri (e.g. https://your-app.com/auth/census/callback)
-*   Note the values for "Application Id" and "Secret". These are your "production" values.
-*   Follow the steps above, but at <https://census-app-staging.herokuapp.com>. You will get a different set of "Application Id" and "Secret". These are your "development" values.
+* Sign in to Census at [https://login.turing.io](https://login.turing.io).
+* Visit [Your Census Applications](https://login.turing.io/oauth/applications) and register your app.
+* Provide an application name
+* Provide an application redirect uri (e.g. https://your-app.com/auth/census/callback)
+* Note the values for "Application Id" and "Secret". These are your "production" values.
+* Follow the steps above, but at <https://login-staging.turing.io>. You will
+  get a different set of "Application Id" and "Secret". These are your
+  "development" values.
 
 
 #### Step 2: Configure OmniAuth
