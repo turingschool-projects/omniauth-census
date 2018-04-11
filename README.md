@@ -86,6 +86,20 @@ Link
 
 `<%= link_to 'Login with Census', '/auth/census' %>`
 
+
+## Getting data from the Census API
+
+Use the `Census::Client` included in this gem. It currently supports fetching
+the currently logged in user (via the token). Given a token its usage is:
+
+`census_user = Census::Client.new(token: token).get_current_user`
+
+It will return an instance of `Census::User` or raise an error that
+should be handled. The error is one of:
+  * Census::Client::InvalidResponseError
+  * Census::Client::UnauthorizedError
+  * Census::Client::NotFoundError
+
 ## Note about environments
 
 Since you can perform destructive actions on Census with your application keys,
