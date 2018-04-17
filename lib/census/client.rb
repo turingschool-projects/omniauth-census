@@ -1,3 +1,4 @@
+require 'census/credentials'
 require 'census/user'
 
 module Census
@@ -12,8 +13,16 @@ module Census
       @token = token
     end
 
-    def get_current_user
-      response = Faraday.get(user_url)
+    def self.generate_token(client_id:, client_secret:)
+      response = Faraday.post(
+        BASE_URL + "/oauth/token",
+        {
+          grant_type: 'client_credentials',
+          client_id: client_id,
+          client_secret: client_secret,
+          scope: "admin"
+        }
+      )
 
       begin
         response_json = JSON.parse(response.body)
@@ -21,16 +30,58 @@ module Census
         raise InvalidResponseError.new(e.message)
       end
 
-      if response.status == 401
+      if [401, 403].include?(response.status)
+        raise UnauthorizedError.new(response_json["error"])
+      elsif response.status == 404
+        raise NotFoundError.new(response_json["error"])
+      end
+
+      Census::Credentials.new(
+        access_token: response_json["access_token"],
+        token_type: response_json["token_type"],
+        expires_in: response_json["expires_in"],
+        created_at: response_json["created_at"]
+      )
+    end
+
+    # requires admin scope
+    def invite_user(email:)
+      response_json = post_url(url: invitations_url, params: { invitation: { email: email  } })
+      { id: response_json["id"] }
+    end
+
+    def get_current_user
+      response_json = get_url(url: user_url)
+      map_response_to_user(response_json)
+    end
+
+    private
+
+    def post_url(url:, params: {})
+      response = Faraday.post(url, params)
+      handle_and_parse_response(response: response)
+    end
+
+    def get_url(url:)
+      response = Faraday.get(user_url)
+      handle_and_parse_response(response: response)
+    end
+
+    def handle_and_parse_response(response:)
+      begin
+        response_json = JSON.parse(response.body)
+      rescue JSON::ParserError => e
+        raise InvalidResponseError.new(e.message)
+      end
+
+      if [401, 403].include?(response.status)
         raise UnauthorizedError.new(parse_errors(response_json))
       elsif response.status == 404
         raise NotFoundError.new(parse_errors(response_json))
       end
 
-      map_response_to_user(response_json)
+      response_json
     end
-
-    private
 
     def map_response_to_user(user_json)
       Census::User.new(
@@ -53,10 +104,16 @@ module Census
       response_json["errors"].join(",")
     end
 
-    def user_url
-      user_url = "/api/v1/user_credentials"
+    def invitations_url
+      build_full_url_with_token(path: "/api/v1/admin/invitations")
+    end
 
-      BASE_URL + user_url + "?access_token=#{@token}"
+    def user_url
+      build_full_url_with_token(path: "/api/v1/user_credentials")
+    end
+
+    def build_full_url_with_token(path:)
+      BASE_URL + path + "?access_token=#{@token}"
     end
   end
 end

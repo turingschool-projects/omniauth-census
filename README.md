@@ -100,6 +100,16 @@ should be handled. The error is one of:
   * Census::Client::UnauthorizedError
   * Census::Client::NotFoundError
 
+If you are performing actions on behalf of an oauth application (not on behalf
+of a specific user) you can fetch a token given the client id and secret with
+the following:
+
+```
+credentials = Census::Client.generate_token(client_id: 'foo', client_secret: 'bar')
+```
+
+It will return a `Census::Credentials` object or raise an error.
+
 ## Note about environments
 
 Since you can perform destructive actions on Census with your application keys,

@@ -1,8 +1,25 @@
 require 'spec_helper'
 
 describe Census::Client do
+  describe '#generate_token' do
+    it 'creates a token and returns credentials' do
+      creds_json = {
+        access_token: "biglongtoken",
+        token_type: "bearer",
+        expires_in: 12345,
+        created_at: 1242597
+      }.to_json
+      response_stub = double(status: 201, body: creds_json)
+      allow(Faraday).to receive(:post).and_return(response_stub)
+
+      credentials = Census::Client.generate_token(client_id: 'foo', client_secret: 'bar')
+
+      expect(credentials.access_token).to eq("biglongtoken")
+    end
+  end
+
   describe '#get_current_user' do
-    it 'does a thing' do
+    it 'returns the user tied to the passed token' do
       user_attributes = {
         "id"=>86,
         "first_name"=>"Simon",
