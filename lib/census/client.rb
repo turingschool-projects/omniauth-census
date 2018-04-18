@@ -1,4 +1,5 @@
 require 'census/credentials'
+require 'census/invitation'
 require 'census/user'
 
 module Census
@@ -8,6 +9,7 @@ module Census
     class InvalidResponseError < StandardError; end;
     class UnauthorizedError < StandardError; end;
     class NotFoundError < StandardError; end;
+    class UnprocessableEntityError < StandardError; end;
 
     def initialize(token:)
       @token = token
@@ -47,7 +49,8 @@ module Census
     # requires admin scope
     def invite_user(email:)
       response_json = post_url(url: invitations_url, params: { invitation: { email: email  } })
-      { id: response_json["id"] }
+
+      Census::Invitation.new(id: response_json["invitation"]["id"])
     end
 
     def get_current_user
@@ -78,6 +81,8 @@ module Census
         raise UnauthorizedError.new(parse_errors(response_json))
       elsif response.status == 404
         raise NotFoundError.new(parse_errors(response_json))
+      elsif response.status == 422
+        raise UnprocessableEntityError.new(parse_errors(response_json))
       end
 
       response_json

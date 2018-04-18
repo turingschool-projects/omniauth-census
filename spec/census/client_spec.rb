@@ -18,6 +18,20 @@ describe Census::Client do
     end
   end
 
+  describe 'invite_user' do
+    it 'returns the invitation id' do
+      invite_id = 1
+      invite_attributes = { "invitation"=> { "id"=>invite_id } }
+      response_stub = double(status: 201, body: invite_attributes.to_json)
+      allow(Faraday).to receive(:post).and_return(response_stub)
+      client = Census::Client.new(token: "foo")
+
+      invitation = client.invite_user(email: "invited@example.com")
+
+      expect(invitation.id).to eq(invite_id)
+    end
+  end
+
   describe '#get_current_user' do
     it 'returns the user tied to the passed token' do
       user_attributes = {
