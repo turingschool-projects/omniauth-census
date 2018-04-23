@@ -58,6 +58,25 @@ module Census
       map_response_to_user(response_json)
     end
 
+    def get_user_by_id(id:)
+      response_json = get_url(url: single_user_url(id: id))
+
+      Census::User.new(
+        cohort_name: response_json["cohort"],
+        email: response_json["email"],
+        first_name: response_json["first_name"],
+        git_hub: response_json["git_hub"],
+        groups: response_json["groups"],
+        id: response_json["id"],
+        image_url: response_json["image_url"],
+        last_name: response_json["last_name"],
+        roles: response_json["roles"],
+        slack: response_json["slack"],
+        stackoverflow: response_json["stackoverflow"],
+        twitter: response_json["twitter"]
+      )
+    end
+
     private
 
     def post_url(url:, params: {})
@@ -66,7 +85,7 @@ module Census
     end
 
     def get_url(url:)
-      response = Faraday.get(user_url)
+      response = Faraday.get(url)
       handle_and_parse_response(response: response)
     end
 
@@ -115,6 +134,10 @@ module Census
 
     def user_url
       build_full_url_with_token(path: "/api/v1/user_credentials")
+    end
+
+    def single_user_url(id:)
+      build_full_url_with_token(path: "/api/v1/users/#{id}")
     end
 
     def build_full_url_with_token(path:)

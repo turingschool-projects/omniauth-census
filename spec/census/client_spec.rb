@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Census::Client do
-  describe '#generate_token' do
+  describe '.generate_token' do
     it 'creates a token and returns credentials' do
       creds_json = {
         access_token: "biglongtoken",
@@ -18,7 +18,7 @@ describe Census::Client do
     end
   end
 
-  describe 'invite_user' do
+  describe '#invite_user' do
     it 'returns the invitation id' do
       invite_id = 1
       invite_attributes = { "invitation"=> { "id"=>invite_id } }
@@ -29,6 +29,33 @@ describe Census::Client do
       invitation = client.invite_user(email: "invited@example.com")
 
       expect(invitation.id).to eq(invite_id)
+    end
+  end
+
+  describe '#get_user_by_id' do
+    it 'returns the requested user' do
+      user_attributes = {
+        "cohort"=>"1401-BE",
+        "email"=>"foo@turing.io",
+        "first_name"=>"Simon",
+        "git_hub"=>"gh",
+        "groups"=>["LGBTQ"],
+        "id"=>86,
+        "image_url"=>"https://img.example.com",
+        "last_name"=>"Tar",
+        "linked_in"=>"li",
+        "roles"=> ["student"],
+        "slack"=>"sl",
+        "stackoverflow"=>"so",
+        "twitter"=>"tw"
+      }
+      response_stub = double(status: 200, body: user_attributes.to_json)
+      allow(Faraday).to receive(:get).and_return(response_stub)
+      client = Census::Client.new(token: "foo")
+
+      user = client.get_user_by_id(id: 86)
+
+      expect(user.cohort_name).to eq("1401-BE")
     end
   end
 
