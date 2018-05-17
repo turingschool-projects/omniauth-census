@@ -26,7 +26,7 @@ describe Census::Client do
       allow(Faraday).to receive(:post).and_return(response_stub)
       client = Census::Client.new(token: "foo")
 
-      invitation = client.invite_user(email: "invited@example.com")
+      invitation = client.invite_user(email: "invited@example.com", name: "Mildred")
 
       expect(invitation.id).to eq(invite_id)
     end
