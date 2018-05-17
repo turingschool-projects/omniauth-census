@@ -47,8 +47,11 @@ module Census
     end
 
     # requires admin scope
-    def invite_user(email:)
-      response_json = post_url(url: invitations_url, params: { invitation: { email: email  } })
+    def invite_user(email:, name: nil)
+      response_json = post_url(
+        url: invitations_url,
+        params: { invitation: { email: email, name: name } }
+      )
 
       Census::Invitation.new(id: response_json["invitation"]["id"])
     end
