@@ -80,6 +80,17 @@ module Census
       )
     end
 
+    def get_users
+      # NB: this endpoint is currently not paginated
+      response_json = get_url(
+        url: build_full_url_with_token(path: "/api/v1/users")
+      )
+
+      response_json.map do |census_user|
+        map_response_to_user(census_user)
+      end
+    end
+
     private
 
     def post_url(url:, params: {})
