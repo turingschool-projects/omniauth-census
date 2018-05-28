@@ -32,6 +32,38 @@ describe Census::Client do
     end
   end
 
+  describe '#get_users' do
+    it 'returns all the users' do
+      user_attributes = {
+        "id"=>86,
+        "first_name"=>"Simon",
+        "last_name"=>"Tar",
+        "cohort"=>{"name"=>"1401-BE"},
+        "image_url"=>"https://img.example.com",
+        "email"=>"foo@turing.io",
+        "slack"=>"sl",
+        "stackoverflow"=>"so",
+        "linked_in"=>"li",
+        "git_hub"=>"gh",
+        "twitter"=>"tw",
+        "roles"=> [
+          {"id"=>27, "name"=>"staff", "created_at"=>"2017-02-08T21:09:38.545Z", "updated_at"=>"2017-02-08T21:09:38.545Z"},
+          {"id"=>1, "name"=>"admin", "created_at"=>"2016-12-21T21:11:33.140Z", "updated_at"=>"2016-12-21T21:11:33.140Z"}
+         ],
+        "groups"=>[{ "name"=>"LGBTQ" }],
+      }
+      users = [user_attributes]
+      response_stub = double(status: 200, body: users.to_json)
+      allow(Faraday).to receive(:get).and_return(response_stub)
+      client = Census::Client.new(token: "foo")
+
+      users = client.get_users
+
+      expect(users.first.id).to eq(86)
+      expect(users.first.cohort_name).to eq("1401-BE")
+    end
+  end
+
   describe '#get_user_by_id' do
     it 'returns the requested user' do
       user_attributes = {
