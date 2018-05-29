@@ -80,11 +80,9 @@ module Census
       )
     end
 
-    def get_users
-      # NB: this endpoint is currently not paginated
-      response_json = get_url(
-        url: build_full_url_with_token(path: "/api/v1/users")
-      )
+    def get_users(limit: 100, offset: 0)
+      paginated_url = build_full_url_with_token(path: "/api/v1/users") + "&limit=#{limit}&offset=#{offset}"
+      response_json = get_url(url: paginated_url)
 
       response_json.map do |census_user|
         map_response_to_user(census_user)
