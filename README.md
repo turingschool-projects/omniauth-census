@@ -54,6 +54,8 @@ Or install it yourself as:
     end
     ```
 
+**Note:** The snippet above assumes that each has been set in your environment, per our earlier recommendation. You can rename `CENSUS_ID` and `CENSUS_SECRET` to whatever you would like as long as they are consistent with the names you have used when setting your environment variables.
+
 #### Step 3: Setup Route
 
 In your Rails application create the following routes:
