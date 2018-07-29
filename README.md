@@ -35,7 +35,6 @@ Or install it yourself as:
   get a different set of "Application Id" and "Secret". These are your
   "development" values.
 
-
 #### Step 2: Configure OmniAuth
 
 *   Add the `CENSUS_ID`, `CENSUS_SECRET` you receive to your application's environment variables. Use the "production" values if `RACK_ENV` is set to `production`. Use the "development" values for all other environments.
@@ -49,20 +48,23 @@ Or install it yourself as:
     # config/initializers/omniauth.rb
 
     Rails.application.config.middleware.use OmniAuth::Builder do
-      provider :census, "CENSUS_ID", "CENSUS_SECRET", {
+      provider :census, ENV["CENSUS_ID"], ENV["CENSUS_SECRET"], {
         :name => "census"
       }
     end
     ```
 
 #### Step 3: Setup Route
+
 In your Rails application create the following routes:
 ```ruby
 # config/routes.rb
 
 get 'auth/:provider/callback', to: 'sessions#create'
 ```
+
 #### Step 4: Create a Controller
+
 In your Rails application create a controller that will handle the login process. For example:
 
 `touch app/controllers/sessions_controller.rb`
@@ -74,7 +76,7 @@ In that controller include the following:
 
 class SessionsController < ApplicationController
   def create
-    census_user_info = env["omniauth.auth"]
+    census_user_info = request.env["omniauth.auth"]
   end
 end
 ```
@@ -86,6 +88,18 @@ Link
 
 `<%= link_to 'Login with Census', '/auth/census' %>`
 
+#### Step 6: Force SSL
+
+Census requires you to use a secure callback URL when registering your application. In order to ensure that your application uses a secure connection, add the line below to your `config/application.rb` file within the Application class definition.
+
+```
+config.force_ssl = true
+```
+
+In order for your application to work locally, you will need to generate an SSL certificate. For more information on that see the links below.
+
+* [Rails Local Development over HTTPS using a Self-Signed SSL Certificate](https://www.devmynd.com/blog/rails-local-development-https-using-self-signed-ssl-certificate/)
+* [How to enable SSL for Rails development environment in two minutes?](https://blog.botreetechnologies.com/enable-ssl-in-developement-using-thin-2a4bd1af500d)
 
 ## Getting data from the Census API
 
@@ -122,6 +136,12 @@ This gem is set to use the "production" host of Census if your application's
 
 Additionally, you can force use of the production server by setting an
 environment variable `CENSUS_ENV=production`.
+
+Setting this environment variable using Figaro may not work for you. If that is the case, set it directly from the terminal using the following command:
+
+```
+export CENSUS_ENV=production
+```
 
 The Census endpoint can be overridden by setting a fully qualified URL in
 `CENSUS_PROVIDER_ENDPOINT`.
