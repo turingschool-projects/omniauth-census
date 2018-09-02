@@ -160,4 +160,37 @@ describe Census::Client do
       end
     end
   end
+
+  describe '#get_cohorts' do
+    it 'returns an array of CensusCohort objects' do
+      cohort_attributes = [
+        {"id"=>1,
+         "name"=>"1406-BE",
+         "start_date"=>"2014-06-01 00:00:00 UTC",
+         "status"=>"closed"},
+        {"id"=>2,
+         "name"=>"1407-BE",
+         "start_date"=>"2014-07-01 00:00:00 UTC",
+         "status"=>"closed"},
+        {"id"=>3,
+         "name"=>"1409-BE",
+         "start_date"=>"2014-09-01 00:00:00 UTC",
+         "status"=>"opent"}
+        ]
+
+      response_stub = double(status: 200, body: cohort_attributes.to_json)
+      allow(Faraday).to receive(:get).and_return(response_stub)
+
+      client = Census::Client.new(token: "foo")
+
+      cohorts = client.get_cohorts
+
+      expect(cohorts.length).to eq(3)
+      expect(cohorts.first.class).to eq(Census::Cohort)
+      expect(cohorts.first.id).to eq(1)
+      expect(cohorts.first.name).to eq("1406-BE")
+      expect(cohorts.first.start_date).to eq("2014-06-01 00:00:00 UTC")
+      expect(cohorts.first.status).to eq("closed")
+    end
+  end
 end
