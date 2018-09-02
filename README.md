@@ -26,14 +26,50 @@ Or install it yourself as:
 
 #### Step 1: Register your Application
 
-* Sign in to Census at [https://login.turing.io](https://login.turing.io).
-* Visit [Your Census Applications](https://login.turing.io/oauth/applications) and register your app.
+##### A Note About Environments
+
+Since you can perform destructive actions on Census with your application keys,
+we host a "staging" and a "production" version of the Census app. That way, if
+you have a bug in your code, you'll only screw up the "staging" app.
+
+This gem is set to use the "production" host of Census if your application's
+`RACK_ENV` variable is set to `production`, and staging for all other values of
+`RACK_ENV` (including if it is unset).
+
+Additionally, you can force use of the production server by setting an
+environment variable `CENSUS_ENV=production`.
+
+Setting this environment variable using Figaro may not work for you. If that is the case, set it directly from the terminal using the following command:
+
+```
+export CENSUS_ENV=production
+```
+
+The Census endpoint can be overridden by setting a fully qualified URL in
+`CENSUS_PROVIDER_ENDPOINT`.
+
+##### Registering with Census Staging
+
+While it is true that you can force your application to use the production environment of Census, it is recommended that you use the staging environment when working in dev/test.
+
+It may be the case that you do not currently have a login in the staging environment. If so, ask a Turing staff member to see if they can create an invitation for you.
+
+Once you have logged in and set up your account:
+
+* Sign in to Census Staging at [https://login-staging.turing.io](https://login-staging.turing.io).
+* Visit [Your Census Applications](https://login-staging.turing.io/oauth/applications) and register your app.
 * Provide an application name
-* Provide an application redirect uri (e.g. https://your-app.com/auth/census/callback)
-* Note the values for "Application Id" and "Secret". These are your "production" values.
+* Provide an application redirect uri (e.g. http://localhost:3000/auth/census/callback)
+* Note the values for "Application Id" and "Secret". These are the values you will use in your dev environment.
 * Follow the steps above, but at <https://login-staging.turing.io>. You will
   get a different set of "Application Id" and "Secret". These are your
   "development" values.
+
+##### Registering with Census Production
+
+When you are ready to deploy, perform the same steps when registering with Census Staging on the [production version of Census](https://login.turing.io).
+
+Note that Census requires you to use `https` when creating a callback URL in the production environment. It may be beneficial for you to force users to connect over SSL.
 
 #### Step 2: Configure OmniAuth
 
@@ -90,19 +126,6 @@ Link
 
 `<%= link_to 'Login with Census', '/auth/census' %>`
 
-#### Step 6: Force SSL
-
-Census requires you to use a secure callback URL when registering your application. In order to ensure that your application uses a secure connection, add the line below to your `config/application.rb` file within the Application class definition.
-
-```
-config.force_ssl = true
-```
-
-In order for your application to work locally, you will need to generate an SSL certificate. For more information on that see the links below.
-
-* [Rails Local Development over HTTPS using a Self-Signed SSL Certificate](https://www.devmynd.com/blog/rails-local-development-https-using-self-signed-ssl-certificate/)
-* [How to enable SSL for Rails development environment in two minutes?](https://blog.botreetechnologies.com/enable-ssl-in-developement-using-thin-2a4bd1af500d)
-
 ## Getting data from the Census API
 
 Use the `Census::Client` included in this gem. It currently supports fetching
@@ -125,28 +148,6 @@ credentials = Census::Client.generate_token(client_id: 'foo', client_secret: 'ba
 ```
 
 It will return a `Census::Credentials` object or raise an error.
-
-## Note about environments
-
-Since you can perform destructive actions on Census with your application keys,
-we host a "staging" and a "production" version of the Census app. That way, if
-you have a bug in your code, you'll only screw up the "staging" app.
-
-This gem is set to use the "production" host of Census if your application's
-`RACK_ENV` variable is set to `production`, and staging for all other values of
-`RACK_ENV` (including if it is unset).
-
-Additionally, you can force use of the production server by setting an
-environment variable `CENSUS_ENV=production`.
-
-Setting this environment variable using Figaro may not work for you. If that is the case, set it directly from the terminal using the following command:
-
-```
-export CENSUS_ENV=production
-```
-
-The Census endpoint can be overridden by setting a fully qualified URL in
-`CENSUS_PROVIDER_ENDPOINT`.
 
 ## Contributing
 
