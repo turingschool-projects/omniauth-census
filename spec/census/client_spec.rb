@@ -64,6 +64,63 @@ describe Census::Client do
     end
   end
 
+  describe '#get_users_by_cohort_name' do
+    it 'returns users associated with a cohort' do
+
+      user_1_attributes = {
+        "id"=>24,
+        "first_name"=>"Sal",
+        "last_name"=>"Espinosa",
+        "cohort"=>{"id"=>13, "name"=>"1602-BE"},
+        "cohort_id"=>13,
+        "image_url"=>"https://img.example.com",
+        "email"=>"foo@turing.io",
+        "slack"=>"sl",
+        "stackoverflow"=>"so",
+        "linked_in"=>"li",
+        "git_hub"=>"gh",
+        "twitter"=>"tw",
+        "roles"=>[
+          {"id"=>21, "name"=>"full-circle-reviewer", "created_at"=>"2018-03-17T19:05:53.852Z", "updated_at"=>"2018-03-17T19:05:53.852Z"},
+          {"id"=>17, "name"=>"admin", "created_at"=>"2017-02-14T22:18:26.978Z", "updated_at"=>"2017-02-14T22:18:26.978Z"},
+          {"id"=>18, "name"=>"staff", "created_at"=>"2017-02-14T22:18:26.993Z", "updated_at"=>"2017-02-14T22:18:26.993Z"}
+        ],
+        "groups"=>["Golick"]
+      }
+
+      user_2_attributes = {
+        "id"=>86,
+        "first_name"=>"Simon",
+        "last_name"=>"Tar",
+        "cohort"=>{"id"=>1, "name"=>"1401-BE"},
+        "cohort_id"=>1,
+        "image_url"=>"https://img.example.com",
+        "email"=>"foo@turing.io",
+        "slack"=>"sl",
+        "stackoverflow"=>"so",
+        "linked_in"=>"li",
+        "git_hub"=>"gh",
+        "twitter"=>"tw",
+        "roles"=> [
+          {"id"=>27, "name"=>"staff", "created_at"=>"2017-02-08T21:09:38.545Z", "updated_at"=>"2017-02-08T21:09:38.545Z"},
+          {"id"=>1, "name"=>"admin", "created_at"=>"2016-12-21T21:11:33.140Z", "updated_at"=>"2016-12-21T21:11:33.140Z"}
+         ],
+        "groups"=>["LGBTQ"]
+      }
+
+
+      users = [user_1_attributes, user_2_attributes]
+      response_stub = double(status: 200, body: users.to_json)
+      allow(Faraday).to receive(:get).and_return(response_stub)
+      client = Census::Client.new(token: "foo")
+
+      users = client.get_users_by_cohort_name("1602-BE")
+
+      expect(users.first.id).to eq(24)
+      expect(users.first.cohort_name).to eq("1602-BE")
+    end
+  end
+
   describe '#get_user_by_id' do
     it 'returns the requested user' do
       user_attributes = {
