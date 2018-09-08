@@ -1,6 +1,7 @@
 require 'census/credentials'
 require 'census/invitation'
 require 'census/user'
+require 'census/cohort'
 
 module Census
   class Client
@@ -89,6 +90,14 @@ module Census
       end
     end
 
+    def get_cohorts
+      response_json = get_url(url: all_cohorts_url)
+
+      response_json.map do |census_cohort|
+        map_response_to_cohort(census_cohort)
+      end
+    end
+        
     def get_users_by_cohort_name(cohort_name)
       users_search_url = build_full_url_with_token(path: "/api/v1/users/search_all") + "&q=#{cohort_name}"
       response_json = get_url(url: users_search_url)
@@ -145,6 +154,15 @@ module Census
       )
     end
 
+    def map_response_to_cohort(cohort_json)
+      Census::Cohort.new(
+        id: cohort_json["id"],
+        name: cohort_json["name"],
+        start_date: cohort_json["start_date"],
+        status: cohort_json["status"],
+      )
+    end
+
     def parse_errors(response_json)
       response_json["errors"].join(",")
     end
@@ -159,6 +177,10 @@ module Census
 
     def single_user_url(id:)
       build_full_url_with_token(path: "/api/v1/users/#{id}")
+    end
+
+    def all_cohorts_url
+      build_full_url_with_token(path: "/api/v1/cohorts")
     end
 
     def build_full_url_with_token(path:)
