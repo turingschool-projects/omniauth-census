@@ -89,6 +89,15 @@ module Census
       end
     end
 
+    def get_users_by_cohort_name(cohort_name)
+      users_search_url = build_full_url_with_token(path: "/api/v1/users/search_all") + "&q=#{cohort_name}"
+      response_json = get_url(url: users_search_url)
+
+      response_json.map do |census_user|
+        map_response_to_user(census_user)
+      end
+    end
+
     private
 
     def post_url(url:, params: {})
