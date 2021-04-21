@@ -40,7 +40,7 @@ describe Census::Client do
         "last_name"=>"Tar",
         "cohort"=>{"name"=>"1401-BE"},
         "image_url"=>"https://img.example.com",
-        "email"=>"foo@turing.io",
+        "email"=>"foo@turing.edu",
         "slack"=>"sl",
         "stackoverflow"=>"so",
         "linked_in"=>"li",
@@ -74,7 +74,7 @@ describe Census::Client do
         "cohort"=>{"id"=>13, "name"=>"1602-BE"},
         "cohort_id"=>13,
         "image_url"=>"https://img.example.com",
-        "email"=>"foo@turing.io",
+        "email"=>"foo@turing.edu",
         "slack"=>"sl",
         "stackoverflow"=>"so",
         "linked_in"=>"li",
@@ -95,7 +95,7 @@ describe Census::Client do
         "cohort"=>{"id"=>1, "name"=>"1401-BE"},
         "cohort_id"=>1,
         "image_url"=>"https://img.example.com",
-        "email"=>"foo@turing.io",
+        "email"=>"foo@turing.edu",
         "slack"=>"sl",
         "stackoverflow"=>"so",
         "linked_in"=>"li",
@@ -125,7 +125,7 @@ describe Census::Client do
     it 'returns the requested user' do
       user_attributes = {
         "cohort"=>"1401-BE",
-        "email"=>"foo@turing.io",
+        "email"=>"foo@turing.edu",
         "first_name"=>"Simon",
         "git_hub"=>"gh",
         "groups"=>["LGBTQ"],
@@ -156,7 +156,7 @@ describe Census::Client do
         "last_name"=>"Tar",
         "cohort"=>{"name"=>"1401-BE"},
         "image_url"=>"https://img.example.com",
-        "email"=>"foo@turing.io",
+        "email"=>"foo@turing.edu",
         "slack"=>"sl",
         "stackoverflow"=>"so",
         "linked_in"=>"li",
@@ -178,7 +178,7 @@ describe Census::Client do
       user = client.get_current_user
 
       expect(user.cohort_name).to eq("1401-BE")
-      expect(user.email).to eq("foo@turing.io")
+      expect(user.email).to eq("foo@turing.edu")
       expect(user.first_name).to eq("Simon")
       expect(user.git_hub).to eq("gh")
       expect(user.groups).to match_array(["LGBTQ"])

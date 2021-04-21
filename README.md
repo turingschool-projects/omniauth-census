@@ -56,18 +56,18 @@ It may be the case that you do not currently have a login in the staging environ
 
 Once you have logged in and set up your account:
 
-* Sign in to Census Staging at [https://login-staging.turing.io](https://login-staging.turing.io).
-* Visit [Your Census Applications](https://login-staging.turing.io/oauth/applications) and register your app.
+* Sign in to Census Staging at [https://login-staging.turing.edu](https://login-staging.turing.edu).
+* Visit [Your Census Applications](https://login-staging.turing.edu/oauth/applications) and register your app.
 * Provide an application name
 * Provide an application redirect uri (e.g. http://localhost:3000/auth/census/callback)
 * Note the values for "Application Id" and "Secret". These are the values you will use in your dev environment.
-* Follow the steps above, but at <https://login-staging.turing.io>. You will
+* Follow the steps above, but at <https://login-staging.turing.edu>. You will
   get a different set of "Application Id" and "Secret". These are your
   "development" values.
 
 ##### Registering with Census Production
 
-When you are ready to deploy, perform the same steps when registering with Census Staging on the [production version of Census](https://login.turing.io).
+When you are ready to deploy, perform the same steps when registering with Census Staging on the [production version of Census](https://login.turing.edu).
 
 Note that Census requires you to use `https` when creating a callback URL in the production environment. It may be beneficial for you to force users to connect over SSL.
 
