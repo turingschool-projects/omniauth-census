@@ -1,0 +1,20 @@
+version: 2
+jobs:
+  test:
+    docker:
+      - image: circleci/ruby:2.6.6
+    steps:
+      - checkout
+      - run:
+          name: install dependencies
+          command: |
+            bundle install
+      - run:
+          name: run tests
+          command: |
+            bundle exec rspec
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test
